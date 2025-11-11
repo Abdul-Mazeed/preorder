@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>মাসিক নবপথ | প্রি-অর্ডার</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+      font-family: 'Hind Siliguri', sans-serif;
+    }
+
+    body {
+      overflow-x: hidden;
+      transition: background 0.6s ease, color 0.6s ease;
+    }
+
+    body.dark {
+      background: radial-gradient(circle at 30% 30%, #101010, #000);
+      color: #fff;
+    }
+
+    body.light {
+      background: linear-gradient(120deg, #ffffff, #e7ecf5);
+      color: #111;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1em 2em;
+      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.5);
+      transition: background 0.5s;
+    }
+
+    body.light nav {
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    nav h2 {
+      font-size: 1.6em;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .nav-links a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: inherit;
+      font-weight: 600;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0;
+      bottom: -3px;
+      background: currentColor;
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Theme Toggle */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #555;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "🌙";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background-color: #fff;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 22px;
+      font-size: 14px;
+      transition: 0.4s;
+    }
+
+    input:checked + .slider {
+      background-color: #ffd75e;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(30px);
+      content: "☀️";
+    }
+
+    /* Hero */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 4em;
+      font-weight: 700;
+      margin-bottom: 0.3em;
+      text-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+      animation: fadeSlide 1.5s ease-out;
+    }
+
+    .motto {
+      font-size: 1.4em;
+      margin-bottom: 1.5em;
+      opacity: 0.9;
+      animation: fadeIn 2s 1s forwards;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1em;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .main-btn {
+      background: linear-gradient(90deg, #8ec5fc, #e0c3fc);
+      color: #000;
+      border: none;
+      padding: 0.8em 2em;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+    }
+
+    .main-btn:hover {
+      transform: scale(1.08);
+      background: linear-gradient(90deg, #a8edea, #fed6e3);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Sections */
+    section {
+      padding: 6em 2em;
+      text-align: center;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    section h2 {
+      font-size: 2em;
+      margin-bottom: 1em;
+    }
+
+    section p {
+      font-size: 1.1em;
+      line-height: 1.8em;
+      opacity: 0.9;
+    }
+
+    /* Preorder Box */
+    .preorder-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      padding: 2.5em;
+      max-width: 700px;
+      margin: 2em auto;
+      backdrop-filter: blur(10px);
+      transition: all 0.6s ease;
+      position: relative;
+    }
+
+    .preorder-box:hover {
+      box-shadow: 0 0 45px rgba(140, 180, 255, 0.4);
+      transform: translateY(-6px);
+    }
+
+    body.light .preorder-box {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #ccc;
+    }
+
+    .cover-img {
+      width: 100%;
+      max-width: 340px;
+      border-radius: 10px;
+      margin-bottom: 1.5em;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .cover-img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+
+    /* Contact Buttons */
+    .contact-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1em;
+      margin-top: 1.8em;
+    }
+
+    .contact-btn {
+      border: none;
+      border-radius: 40px;
+      padding: 0.8em 2em;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .contact-btn.email {
+      background: linear-gradient(90deg, #c2e9fb, #a1c4fd);
+      color: #000;
+    }
+
+    .contact-btn.email:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 20px rgba(173, 216, 255, 0.5);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2em 0;
+      font-size: 0.9em;
+      color: #aaa;
+    }
+
+    body.light footer {
+      color: #444;
+    }
+  </style>
+</head>
+
+<body class="dark">
+  <nav>
+    <h2>মাসিক নবপথ</h2>
+    <div class="nav-links">
+      <a href="#hero">হোম</a>
+      <a href="#about">সম্পর্কে</a>
+      <a href="#preorder">প্রি-অর্ডার</a>
+      <a href="#contact">যোগাযোগ</a>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="theme-toggle" />
+      <span class="slider"></span>
+    </label>
+  </nav>
+
+  <div class="hero" id="hero">
+    <h1>মাসিক নবপথ</h1>
+    <p class="motto">সংস্কারের পথে, নতুন প্রজন্মের প্রত্যয়ে</p>
+    <div class="btn-group">
+      <a href="#preorder"><button class="main-btn">✨ প্রি-অর্ডার করুন এখনই</button></a>
+      <a href="#contact"><button class="main-btn">📬 আমাদের সঙ্গে যুক্ত হোন</button></a>
+    </div>
+  </div>
+
+  <section id="about">
+    <h2>মাসিক নবপথ সম্পর্কে</h2>
+    <p>
+      <strong>মাসিক নবপথ</strong> — নতুন প্রজন্মের চিন্তা, সংস্কৃতি, সাহিত্য ও প্রযুক্তির দিগন্ত উন্মোচনের একটি সৃজনশীল উদ্যোগ।  
+      সংস্কারের পথে নতুন চিন্তা, লেখা ও আলোচনার মেলবন্ধনই আমাদের লক্ষ্য।
+    </p>
+  </section>
+
+  <section id="preorder">
+    <h2>প্রথম সংখ্যা প্রি-অর্ডার</h2>
+    <div class="preorder-box">
+      <img src="cover-nabopath.jpg" alt="Magazine Cover" class="cover-img" />
+      <p>
+        আমাদের প্রথম সংখ্যাটি এখন প্রি-অর্ডারের জন্য উন্মুক্ত!  
+        নিচের বাটনে ক্লিক করে গুগল ফর্ম পূরণ করুন এবং আপনার কপি নিশ্চিত করুন।
+      </p>
+      <a href="https://forms.gle/nFG1XAwriZJQBqxx9" target="_blank">
+        <button class="main-btn" style="margin-top: 1.5em;">🚀 প্রি-অর্ডার করুন</button>
+      </a>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>যোগাযোগ করুন</h2>
+    <p>আপনার মতামত, লেখা বা সহযোগিতার জন্য আমাদের সঙ্গে যোগাযোগ রাখুন:</p>
+    <div class="contact-buttons">
+      <button class="contact-btn email" onclick="window.open('mailto:nobopath.magazine@gmail.com')">
+        ✉️ ইমেইল করুন আমাদের
+      </button>
+    </div>
+  </section>
+
+  <footer>© ২০২৫ মাসিক নবপথ — সর্বস্বত্ব সংরক্ষিত</footer>
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    if (localStorage.getItem('theme') === 'light') {
+      body.classList.replace('dark', 'light');
+      toggle.checked = true;
+    }
+
+    toggle.addEventListener('change', () => {
+      if (toggle.checked) {
+        body.classList.replace('dark', 'light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.replace('light', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  </script>
+</body>
+</html>
